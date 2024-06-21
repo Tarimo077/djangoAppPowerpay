@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Powerpay Africa: Home
+{% endblock %}
+
+{% block content %}
+    <div class="tabs">
+        <button class="tablinks" onclick="openTab(event, 'energy-summary')" id="defaultOpen">Energy Summary ⚡</button>
+        <button class="tablinks" onclick="openTab(event, 'cooking-summary')">Cooking Summary 🍳</button>
+        <button class="tablinks" onclick="openTab(event, 'emissions-summary')">Emissions Summary 🏭</button>
+    </div>
+
+    <div id="energy-summary" class="tabcontent">
+        <h1 style="text-align:center">Energy Dashboard</h1>
+        <div class="data-labels">
+            <label class="labelArea">⚡ <br>Total Energy:<br>{{ sumKwh|floatformat:2 }} kWh</label>
+            <label class="labelArea">🤑 <br>Total Energy Cost:<br>KSHS. {{ sumEnergyCost|floatformat:1 }}</label>
+        </div>
+        <div class="pie">
+            <div class="meals-pie">{{ pie_chart|safe }}</div>
+            <div class="pie-chart">{{ meals_kwh_html |safe }}</div>
+        </div>
+        <div class="charts">
+            <div class="line-chart">{{ line_chart|safe }}</div>
+        </div>
+    </div>
+
+    <div id="cooking-summary" class="tabcontent">
+        <h1 style="text-align:center">Cooking Dashboard</h1>
+        <div class="data-labels">
+            <label class="labelArea">🍳 <br>Total Cooking Time:<br>{{ sumRuntime|floatformat:1 }} hours</label>
+            <label class="labelArea">🍽️ <br>Total Meals:<br>{{ sumMeals }} kWh</label>
+        </div>
+        <div class="pie">
+            <div class="meals-pie">{{ meals_pie_html|safe }}</div>
+            <div class="pie-chart">{{ cooking_time_pie_html|safe }}</div>
+        </div>
+        <div class="charts">
+            <div class="line-chart">{{ cooking_line_chart|safe }}</div>
+        </div>
+    </div>
+
+    <div id="emissions-summary" class="tabcontent">
+        <h1 style="text-align:center">Emissions Dashboard</h1>
+        <div class="data-labels">
+            <label class="labelArea">🏭 <br>Total Emissions:<br>{{ sumEmissions|floatformat:2 }} kWh</label>
+            
+        </div>
+        <div class="pie">
+            <div class="meals-pie">{{ pie_chart_emissions|safe }}</div>
+            <div class="pie-chart">{{ meals_emissions_html|safe }}</div>
+        </div>
+        <div class="charts">
+            <div class="line-chart">{{ emissions_line_chart|safe }}</div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.getElementById("defaultOpen").click();
+    </script>
+{% endblock %}
